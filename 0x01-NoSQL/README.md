@@ -282,7 +282,7 @@ Write a Python script that provides some stats about Nginx logs stored in MongoD
         method=GET
         path=/status
 
-The output of your script ### must be exactly the same as the example
+The output of your script must be exactly the same as the example
 
         guillaume@ubuntu:~/0x01$ curl -o dump.zip -s "https://s3.amazonaws.com/intranet-projects-files/holbertonschool-webstack/411/dump.zip"
         guillaume@ubuntu:~/0x01$ 
