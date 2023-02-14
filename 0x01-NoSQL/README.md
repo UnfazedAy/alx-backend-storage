@@ -50,3 +50,83 @@ Write a script that inserts a document in the collection school:
         WriteResult({ "nInserted" : 1 })
         bye
         guillaume@ubuntu:~/0x01$
+
+## 3. All documents
+Write a script that lists all documents in the collection school:
+
+- The database name will be passed as option of mongo command
+
+        guillaume@ubuntu:~/0x01$ cat 3-all | mongo my_db
+        MongoDB shell version v3.6.3
+        connecting to: mongodb://127.0.0.1:27017/my_db
+        MongoDB server version: 3.6.3
+        { "_id" : ObjectId("5a8fad532b69437b63252406"), "name" : "Holberton school" }
+        bye
+        guillaume@ubuntu:~/0x01$
+
+## 4. All matches
+Write a script that lists all documents with name="Holberton school" in the collection school:
+
+- The database name will be passed as option of mongo command
+
+        guillaume@ubuntu:~/0x01$ cat 4-match | mongo my_db
+        MongoDB shell version v3.6.3
+        connecting to: mongodb://127.0.0.1:27017/my_db
+        MongoDB server version: 3.6.3
+        { "_id" : ObjectId("5a8fad532b69437b63252406"), "name" : "Holberton school" }
+        bye
+        guillaume@ubuntu:~/0x01$
+
+## 5. Count
+Write a script that displays the number of documents in the collection school:
+
+- The database name will be passed as option of mongo command
+
+        guillaume@ubuntu:~/0x01$ cat 5-count | mongo my_db
+        MongoDB shell version v3.6.3
+        connecting to: mongodb://127.0.0.1:27017/my_db
+        MongoDB server version: 3.6.3
+        1
+        bye
+        guillaume@ubuntu:~/0x01$
+
+## 6. Update
+Write a script that adds a new attribute to a document in the collection school:
+
+- The script should update only document with name="Holberton school" (all of them)
+- The update should add the attribute address with the value “972 Mission street”
+- The database name will be passed as option of mongo command
+
+        guillaume@ubuntu:~/0x01$ cat 6-update | mongo my_db
+        MongoDB shell version v3.6.3
+        connecting to: mongodb://127.0.0.1:27017/my_db
+        MongoDB server version: 3.6.3
+        WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+        bye
+        guillaume@ubuntu:~/0x01$ 
+        guillaume@ubuntu:~/0x01$ cat 4-match | mongo my_db
+        MongoDB shell version v3.6.3
+        connecting to: mongodb://127.0.0.1:27017/my_db
+        MongoDB server version: 3.6.3
+        { "_id" : ObjectId("5a8fad532b69437b63252406"), "name" : "Holberton school", "address" : "972 Mission street" }
+        bye
+        guillaume@ubuntu:~/0x01$ 
+
+## 7. Delete by match
+Write a script that deletes all documents with name="Holberton school" in the collection school:
+
+- The database name will be passed as option of mongo command
+
+        guillaume@ubuntu:~/0x01$ cat 7-delete | mongo my_db
+        MongoDB shell version v3.6.3
+        connecting to: mongodb://127.0.0.1:27017/my_db
+        MongoDB server version: 3.6.3
+        { "acknowledged" : true, "deletedCount" : 1 }
+        bye
+        guillaume@ubuntu:~/0x01$ 
+        guillaume@ubuntu:~/0x01$ cat 4-match | mongo my_db
+        MongoDB shell version v3.6.3
+        connecting to: mongodb://127.0.0.1:27017/my_db
+        MongoDB server version: 3.6.3
+        bye
+        guillaume@ubuntu:~/0x01$ 
