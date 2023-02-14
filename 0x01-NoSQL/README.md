@@ -281,6 +281,7 @@ Write a Python script that provides some stats about Nginx logs stored in MongoD
         - one line with the number of documents with:
         method=GET
         path=/status
+You can use this dump as data sample:[dump.zip](https://github.com/UnfazedAy/alx-backend-storage/files/10737315/645541f867bb79ae47b7a80922e9a48604a569b9.zip)
 
 The output of your script must be exactly the same as the example
 
