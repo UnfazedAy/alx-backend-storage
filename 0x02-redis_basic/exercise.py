@@ -10,10 +10,11 @@ import redis
 def count_calls(self, method: Callable) -> Callable:
     """Counts the amount of time Cachd"""
     @wraps(method)
-    def wrapper(*args, **kwargs):
+    def wrapper(self, *args, **kwargs):
         key = method.__qualname__
         self._redis.incr(key)
-        return meth
+        return method(self, *args, **kwargs)
+    return wrapper
 
 class Cache:
     """declares a class Cache"""
