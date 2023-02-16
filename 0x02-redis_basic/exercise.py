@@ -7,16 +7,56 @@ from functools import wraps
 import redis
 
 def count_calls(method: Callable) -> Callable:
-    '''count how many times methods of Cache class are called'''
+    """count how many times methods of Cache class are called"""
     key = method.__qualname__
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        '''wrap the decorated function and return the wrapper'''
+        """wrap the decorated function and return the wrapper"""
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
 
+def call_history(self, method: Callable) -> Callable:
+    key = method.__qualname__
+    inputs = key + ":inputs"
+    outputs = key + ":outputs"
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """
+        Wrapper function for the decorated function
+        Args:
+            self: The object instance
+            *args: The arguments passed to the function
+            **kwargs: The keyword arguments passed to the function
+        Returns:
+            The return value of the decorated function
+        """
+        self._redis.rpush(inputs, str(args))
+        data = method(self, *args, **kwargs)
+        self._redis.rpush(outputs, str(data))
+        return data
+
+    return wrapper
+
+def replay(method: Callable) -> None:
+    """
+    Replays the history of a function
+    Args:
+        method: The function to be decorated
+    Returns:
+        None
+    """
+    name = method.__qualname__
+    cache = redis.Redis()
+    calls = cache.get(name).decode("utf-8")
+    print("{} was called {} times:".format(name, calls))
+    inputs = cache.lrange(name + ":inputs", 0, -1)
+    outputs = cache.lrange(name + ":outputs", 0, -1)
+    for i, o in zip(inputs, outputs):
+        print("{}(*{}) -> {}".format(name, i.decode('utf-8'),
+                                     o.decode('utf-8')))
 
 class Cache:
     """declares a class Cache"""
@@ -25,6 +65,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @call_history
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """Generates and returns a random key string"""
